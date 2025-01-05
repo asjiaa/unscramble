@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<header>how to play</header>
+
+<main>
+
+    <div>
+        <p class="info active">goal: unscramble the word.</p>
+        <p class="info">you will be given a hint and thirty seconds.</p>
+        <p class="info">if you get it wrong you lose a life.</p>
+        <p class="info">if time runs out you lose a life.</p>
+        <p class="info">three strikes and you're out.</p>
+        <p class="info">good luck!</p>
+
+        <div class="nav">
+            <button id="rtnBtn" disabled>&lt;</button>
+            <button id="nxtBtn">&gt;</button>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const text = document.querySelectorAll('.info');
+                let index = 0;
+        
+                const rtnBtn = document.getElementById('rtnBtn');
+                const nxtBtn = document.getElementById('nxtBtn');
+        
+                function txtUpdate() {
+                    text.forEach((txt, idx) => {
+                        txt.classList.toggle('active', idx === index);
+                    });
+                    rtnBtn.disabled = index === 0;
+                }
+
+                txtUpdate();
+        
+                rtnBtn.addEventListener('click', () => {
+                    if (index > 0) {
+                        index--;
+                        txtUpdate();
+                    }
+                });
+        
+                nxtBtn.addEventListener('click', () => {
+                    if (index < text.length - 1) {
+                        index++;
+                        txtUpdate();
+                    } else if (index == text.length - 1) {
+                        window.location.href = "/";
+                    }
+                });
+            });
+        </script>
+    </div>
+    
+</main>
+
+{% endblock %}

@@ -1,0 +1,218 @@
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: black;
+    color: #149414;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+header {
+    justify-content: center;
+    text-align: center;
+    margin-top: 32px;
+    font-size: 32px;
+    color: #149414;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+main div {
+    font-size: 16px;
+}
+
+
+.btn {
+    margin: 16px;
+    padding: 0;
+    font-size: 24px;
+    background-color: transparent;
+    color: #149414;
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.btn:hover {
+    color: #0f6f0f;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    font-size: 242px;
+}
+
+.custom-alert {
+    background-color: black;
+    font-size: 20px;
+    border: 2px solid #0f6f0f;
+    color: #0f6f0f;
+    padding: 15px;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.custom-input {
+    border: none;
+    border-bottom: 2px solid #149414;
+    border-radius: 0;
+    background-color: transparent;
+    color: inherit;
+    text-align: center;
+}
+
+.custom-input:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    border-bottom: 2px solid #1eac1e;
+    background-color: transparent;
+    color: #1eac1e;
+}
+
+.custom-input::placeholder {
+    color: #149414;
+}
+
+.dropdown-menu {
+    background-color: #282828;
+}
+
+.dropdown-item:hover {
+    background-color: black;
+    color: #149414;
+}
+
+.info {
+    display: none;
+    justify-content: center;
+    margin-top: 48px;
+    font-size: 24px;
+}
+
+.info.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.nav button {
+    padding: 0;
+    font-size: 32px;
+    background-color: transparent;
+    color: #149414;
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.nav button:disabled {
+    background-color: black;
+    cursor: not-allowed;
+}
+
+.nav button:hover {
+    color: #0f6f0f;
+}
+
+.navbar {
+    background-color: black;
+    border: none;
+    border-bottom: 1px solid #149414;
+    box-shadow: none;
+}
+
+.navbar-nav .nav-link, 
+.navbar-toggler, 
+.dropdown-item {
+    color: #149414;
+    font-size: medium;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.option {
+    font-size:24px;
+    font-weight: bold;
+}
+
+.select {
+    font-weight: bold;
+}
+
+.timer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 12px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+
+.timer-prog {
+    height: 100%;
+    width: 100%;
+    background-color: #149414;
+    transition: width 0.5s linear;
+}
+
+.table {
+    width: 80%; 
+    border-collapse: collapse; 
+    background-color: black; 
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0 auto;
+}
+
+.table thead th {
+    color: #149414; 
+    font-weight: bold; 
+    font-size: 18px; 
+    text-align: center; 
+    border-bottom: 2px solid #0f6f0f;
+    padding: 8px 16px; 
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #149414;
+}
+
+.table tbody td {
+    color: #149414;
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+.table tbody tr:hover {
+    background-color: #282828;
+}
+
+.top {
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 16px;
+    gap: 8px;
+}
+
+.top-txt {
+    color: #149414;
+    font-weight: bold;
+    font-size: 32px;
+}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <header class="mb-3">your scores</header>
+
+    <main>
+        <table class="table table-sm table-dark">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>score</th>
+                    <th>difficulty</th>
+                    <th>date</th>
+                </tr>
+                <tbody>
+                    {% for score in scores %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ score.score }}</td>
+                        <td>{{ score.difficulty }}</td>
+                        <td>{{ score.timestamp[:10] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </thead>
+        </table>
+    </main>
+
+{% endblock %}

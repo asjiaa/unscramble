@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <header>unscramble.</header>
+
+    <main>
+        <div>
+            <p>a word unscramble game.</p>
+
+            <div>
+                <p class="option">current difficulty: {{ optn }}</p>
+            </div>
+
+            <div>
+                <a href="/main" class="btn">play</a>
+            </div>
+
+            <div>
+                <a href="/info" class="btn">how to play</a>
+            </div>
+
+            <div>
+                <a href="/set" class="btn">edit difficulty</a>
+            </div>
+            {% if not session.get("user_id") %}
+                <div class="custom-alert">
+                    Log in to save scores.
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+{% endblock %}

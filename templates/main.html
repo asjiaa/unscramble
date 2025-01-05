@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <div class="container">
+
+        <div class="top">
+            <p class="top-txt">lives:</p>
+            {% for _ in range(trys) %}
+            <p class="top-txt">
+                X 
+            </p>
+            {% endfor %}
+        </div>
+
+        <main>
+            <div>
+
+                <div>
+                    <p class="option">difficulty: {{ optn }}</p>
+                </div>
+
+                <div class="mt-5 mb-3">
+                    <p style="font-weight: bold; font-size: 48px;">{{ scrmb_wrd }}</p>
+                </div>
+    
+                <div class="mt-3 mb-3">
+                    <p style="font-style: italic; font-size: 40px;">{{ defn }}</p>
+                </div>
+                
+                <form action="/main" method="post">
+                    <div class="mt-3 mb-3">
+                        <input type="text" class="custom-input" style="font-size: 48px;" name="ans" maxlength="{{ scrmb_wrd | length }}">
+                    </div>
+    
+                    <button class="btn" type="submit" style="border: 12px;">submit</button>
+                </form>
+
+                <div class="mt-3 mb-3">
+                    <p style="font-weight: bold; font-size: 32px;">score: {{ pts }}</p>
+                </div>
+            </div>
+        </main>
+
+        {% if alert %}
+        <div class="custom-alert" id="notif" role="alert">
+            {{ alert }}
+        </div>
+        {% endif %}
+
+        <div class="timer">
+            <div class="timer-prog"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const notif = document.getElementById("notif");
+            if (notif) {
+                setTimeout(() => {
+                    notif.style.transition = "opacity 0.5s ease";
+                    notif.style.opacity = "0";
+                    setTimeout(() => notif.remove(), 500);
+                }, 3000);
+            }
+        });
+    </script>
+
+    <script>
+        let time = 30;
+        const timeElmnt = document.querySelector('.timer-prog');
+        
+        const timeIntvl = setInterval(() => {
+            if (time > 0) {
+                time -= 1;
+                updateTimerDisplay();
+            } else {
+                clearInterval(time);
+                document.getElementById('time-form').submit();
+            }
+        }, 1000);
+
+        function updateTimerDisplay() {
+            const percentage = (time / 30) * 100;
+            timeElmnt.style.width = percentage + '%';
+        }
+    </script>
+
+    <form id="time-form" action="/main" method="post" style="display: none;">
+        <input type="hidden" name="time_up" value="1">
+    </form>
+
+{% endblock %}

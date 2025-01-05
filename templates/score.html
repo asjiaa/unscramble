@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <header>final score: {{ pts }}</header>
+
+    {% if alert %}
+        <div class="custom-alert" id="notif" role="alert">
+            {{ alert }}
+        </div>
+    {% endif %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const notif = document.getElementById("notif");
+            if (notif) {
+                setTimeout(() => {
+                    notif.style.transition = "opacity 0.5s ease";
+                    notif.style.opacity = "0";
+                    setTimeout(() => notif.remove(), 500);
+                }, 3000);
+            }
+        });
+    </script>
+
+{% endblock %}
