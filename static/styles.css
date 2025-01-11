@@ -1,5 +1,5 @@
 a {
-    text-decoration: none;
+    text-decoration: none; /* Remove underline from links */
 }
 
 body {
@@ -24,7 +24,7 @@ main {
 }
 
 main div {
-    font-size: 16px;
+    font-size: 16px; /* Comparatively smaller font for main text body */
 }
 
 
@@ -77,7 +77,7 @@ main div {
     outline: none;
     border-bottom: 2px solid #1eac1e;
     background-color: transparent;
-    color: #1eac1e;
+    color: #1eac1e; /* Brighter green to indicate focus */
 }
 
 .custom-input::placeholder {
@@ -85,7 +85,7 @@ main div {
 }
 
 .dropdown-menu {
-    background-color: #282828;
+    background-color: #282828; /* Darker background emphasise dropdown */
 }
 
 .dropdown-item:hover {
@@ -94,7 +94,7 @@ main div {
 }
 
 .info {
-    display: none;
+    display: none; /* Hide instructional paragraph if not 'active' */
     justify-content: center;
     margin-top: 48px;
     font-size: 24px;
@@ -124,7 +124,7 @@ main div {
 
 .nav button:disabled {
     background-color: black;
-    cursor: not-allowed;
+    cursor: not-allowed; /* Do not allow user interaction if 'disabled */
 }
 
 .nav button:hover {
@@ -167,9 +167,9 @@ main div {
 
 .timer-prog {
     height: 100%;
-    width: 100%;
+    width: 100%; /* Set full width initially */
     background-color: #149414;
-    transition: width 0.5s linear;
+    transition: width 0.5s linear; /* Implement smooth shrinking effect*/
 }
 
 .table {

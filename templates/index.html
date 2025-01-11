@@ -8,24 +8,31 @@
         <div>
             <p>a word unscramble game.</p>
 
+            <!-- Display current difficulty -->
             <div>
                 <p class="option">current difficulty: {{ optn }}</p>
             </div>
 
+            <!-- Allow user to access game/tool -->
             <div>
                 <a href="/main" class="btn">play</a>
             </div>
 
+            <!-- Allow user to view instructional information -->
             <div>
                 <a href="/info" class="btn">how to play</a>
             </div>
 
+            <!-- Allow user to alter difficulty settings -->
             <div>
                 <a href="/set" class="btn">edit difficulty</a>
             </div>
+
+            <!-- Notify user about log-in functionality/(ies) if not authenticated -->
+            <!-- Check if user is not logged in by verifying absence of 'id' value in session -->
             {% if not session.get("user_id") %}
                 <div class="custom-alert">
-                    Log in to save scores.
+                    Log in to save scores. <!-- Message prompting user to log in -->
                 </div>
             {% endif %}
         </div>

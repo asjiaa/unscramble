@@ -19,20 +19,20 @@ db = SQLAlchemy(app)
 
 @app.route('/clear', methods=["POST"])
 def clear():
-    session['wrd'] = None
-    return '', 204
+    session['wrd'] = None # 'Reset' game session upon redirect to homepage
+    return '', 204 # Return HTTP 204 No Content
 
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-
+    # Check if user authenticated
     if session.get("user_id"):
         user_id = session["user_id"]
         r = db.session.execute(
             text("SELECT optn FROM users WHERE id = :user_id"),
             {"user_id": user_id}
         ).fetchone()
-        optn = r[0]
+        optn = r[0] # Fetch saved difficulty option for specific user
 
     else:
         optn = session.get("optn", "standard")
@@ -47,7 +47,7 @@ def info():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    session.clear()
+    session.clear() # Clear existing session data
     alert = None
 
     try:
@@ -63,18 +63,21 @@ def login():
                 alert = "No password provided."
                 return render_template("login.html", alert=alert)
             
+            # Query database for entered username
             r = db.session.execute(
                 text("SELECT * FROM users WHERE username = :username"),
                 {"username": username}
             )
-            rows = r.mappings().all()
+            rows = r.mappings().all() # Map query results to dictionary structure
 
+            # Validate user password
             if len(rows) != 1 or not check_password_hash(
                 rows[0]["hash"], password
             ):
                 alert = "Password incorrect."
                 return render_template("login.html", alert=alert)
             
+            # Establish user session
             session["user_id"] = rows[0]["id"]
             session.modified = True
 
@@ -85,43 +88,47 @@ def login():
     
     except Exception as e:
 
-        alert = f"{e}Error encountered."
+        alert = f"{e} error encountered."
         return render_template("register.html", alert=alert)
     
 
 @app.route('/logout')
 def logout():
-    session.clear()
+    session.clear() # Clear user session
 
     return redirect('/')
 
 
 @app.route('/main', methods=["GET", "POST"])
 def main():
-    WRDS = set_wrds()
+    WRDS = set_wrds() # Set organized dictionary of words
 
     alert = None
 
+    # Check if user authenticated
     if session.get("user_id"):
         user_id = session["user_id"]
         r = db.session.execute(
             text("SELECT optn FROM users WHERE id = :user_id"),
             {"user_id": user_id}
         ).fetchone()
-        optn = r[0] if r else 'standard'
+        optn = r[0] # Fetch saved difficulty option for specific user
 
     else:
         optn = session.get("optn", "standard")
     
     if request.method == "GET":
+        # 'Reset' game session when page is loaded initially
         session['wrd'] = None
 
     if not session.get('wrd'):
+        # Fetch random new word if none exists in session
         result = get_rndm(WRDS, optn)
 
         if not result:
             return redirect('/')
         
+        # Retrieve word details
         wrd, defn, scr = result
         scrmb_wrd = scramble(wrd)
 
@@ -132,8 +139,10 @@ def main():
         session['pts'] = 0
         session['trys'] = 3
     
+    # Track user attempts, end game if none are left
     if session['trys'] <= 0:
         if session.get("user_id"):
+            # Query to retreive user's current high score
             user_id = session["user_id"]
             r = db.session.execute(
                 text(f"SELECT score_{optn} FROM users WHERE id = :user_id"),
@@ -144,6 +153,7 @@ def main():
             
             if pts > h_scr:
                 alert = f"{pts} is a new high score!"
+                # Query to update user's high score if score higher than current high score
                 db.session.execute(
                     text(f"UPDATE users SET score_{optn} = :pts WHERE id = :user_id"),
                     {"pts": pts, "user_id": user_id}
@@ -151,6 +161,7 @@ def main():
                 db.session.commit()
 
             timestamp = datetime.datetime.now()
+            # Query to record user's score to history of scores
             db.session.execute(
                 text("INSERT INTO scores (user_id, score, difficulty, timestamp) VALUES (:user_id, :pts, :optn, :timestamp)"),
                 {"user_id": user_id, "pts": pts, "optn": optn, "timestamp": timestamp}
@@ -159,7 +170,8 @@ def main():
             db.session.commit()
                         
         return render_template('score.html', pts=session['pts'], optn=optn, alert=alert)
-                
+    
+    # Fetch new word upon user submission
     if request.method == "POST":
         wrd = session.get('wrd')
         defn = session.get('defn')
@@ -169,14 +181,17 @@ def main():
 
         ans = request.form.get("ans", "")
 
+        # Increase user points based on word's 'difficulty score' upon correct submission
         if chk(ans, wrd):
             pts += scr
             alert = f"+ {scr} points!"
-                    
+
+        # Decrease user 'trys' upon incorrect submission       
         else:
             session["trys"] -= 1
             alert = f"wrong! {session["trys"]} more try/tries."
 
+            # Track user attempts, end game if none are left 
             if session['trys'] <= 0:
                 if session.get("user_id"):
                     user_id = session["user_id"]
@@ -253,11 +268,12 @@ def register():
                 alert = "Passwords do not match."
                 return render_template("register.html", alert=alert)
             
+            # Query database for exisiting usernames
             r = db.session.execute(
                 text("SELECT * FROM users WHERE username = :username"),
                 {"username": username}
             )
-            rows = r.mappings().all()
+            rows = r.mappings().all() # Map query results to dictionary structure
 
             if len(rows) != 0:
                 alert = "Username already exists."
@@ -268,12 +284,14 @@ def register():
             )
             db.session.commit()
 
+            # Query to save username to database for new user
             r = db.session.execute(
                 text("SELECT * FROM users WHERE username = :username"),
                 {"username": username}
             )
             rows = r.mappings().all()
 
+            # Assign session to 'id'
             session["user_id"] = rows[0]["id"]
             session.modified = True
 
@@ -293,6 +311,7 @@ def scores():
     if session.get("user_id"):
         user_id = session["user_id"]
 
+        # Query to retrieve user scores from history of scores
         scores = db.session.execute(
             text("""
                 SELECT 
@@ -306,21 +325,22 @@ def scores():
             {"user_id": user_id}
         ).fetchall()
 
-    return render_template("scores.html", scores=scores)
+    return render_template("scores.html", scores=scores) # Display scores in tabular format
 
 
 @app.route('/set', methods=["GET", "POST"])
 def set():
+    # Check if user authenticated
     if session.get("user_id"):
         user_id = session["user_id"]
         r = db.session.execute(
             text("SELECT optn FROM users WHERE id = :user_id"),
             {"user_id": user_id}
         ).fetchone()
-        optn = r[0]
+        optn = r[0] # Fetch saved difficulty option for specific user
 
     else:
-        optn = session.get('optn', 'standard')
+        optn = session.get("optn", "standard")
 
     alert = None
 
@@ -332,6 +352,7 @@ def set():
             session['optn'] = optn
             alert = f"Difficulty set to: {optn}."
 
+            # Query to save user selected difficulty upon user submission
             if session.get("user_id"):
                 db.session.execute(
                     text("UPDATE users SET optn = :optn WHERE id = :user_id"),

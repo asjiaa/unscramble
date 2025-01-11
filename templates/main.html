@@ -6,7 +6,7 @@
 
         <div class="top">
             <p class="top-txt">lives:</p>
-            {% for _ in range(trys) %}
+            {% for _ in range(trys) %} <!-- Display 'lives'/'tries' based on number of remaining tries -->
             <p class="top-txt">
                 X 
             </p>
@@ -15,7 +15,6 @@
 
         <main>
             <div>
-
                 <div>
                     <p class="option">difficulty: {{ optn }}</p>
                 </div>
@@ -30,7 +29,7 @@
                 
                 <form action="/main" method="post">
                     <div class="mt-3 mb-3">
-                        <input type="text" class="custom-input" style="font-size: 48px;" name="ans" maxlength="{{ scrmb_wrd | length }}">
+                        <input type="text" class="custom-input" style="font-size: 48px;" name="ans" maxlength="{{ scrmb_wrd | length }}"> <!-- Limit input length to length of word-->
                     </div>
     
                     <button class="btn" type="submit" style="border: 12px;">submit</button>
@@ -44,7 +43,7 @@
 
         {% if alert %}
         <div class="custom-alert" id="notif" role="alert">
-            {{ alert }}
+            {{ alert }} <!-- Dynamically displays 'alert' message -->
         </div>
         {% endif %}
 
@@ -54,40 +53,42 @@
     </div>
 
     <script>
+        // Handle removal of 'alert' notification
         document.addEventListener("DOMContentLoaded", function () {
             const notif = document.getElementById("notif");
-            if (notif) {
+            if (notif) { // Check if 'alert' notification exists
                 setTimeout(() => {
-                    notif.style.transition = "opacity 0.5s ease";
-                    notif.style.opacity = "0";
+                    notif.style.transition = "opacity 0.5s ease"; // Implement 'fade-out' transition effect
+                    notif.style.opacity = "0"; // Hide 'alert' notification
                     setTimeout(() => notif.remove(), 500);
-                }, 3000);
+                }, 3000); // Show 'alert' for three (3) seconds
             }
         });
     </script>
 
     <script>
+        // Handle dynamic timer display
         let time = 30;
         const timeElmnt = document.querySelector('.timer-prog');
         
         const timeIntvl = setInterval(() => {
             if (time > 0) {
-                time -= 1;
-                updateTimerDisplay();
+                time -= 1; // Decrement 'time'
+                updateTimerDisplay(); // Update timer 'width'
             } else {
                 clearInterval(time);
-                document.getElementById('time-form').submit();
+                document.getElementById('time-form').submit(); // Automatically submit form once 'time up'
             }
         }, 1000);
 
         function updateTimerDisplay() {
             const percentage = (time / 30) * 100;
-            timeElmnt.style.width = percentage + '%';
+            timeElmnt.style.width = percentage + '%'; // Adjust progress bar 'width' as percentage of time remaining
         }
     </script>
 
     <form id="time-form" action="/main" method="post" style="display: none;">
-        <input type="hidden" name="time_up" value="1">
+        <input type="hidden" name="time_up" value="1"> <!-- Hidden input to indicate insufficient time remaining -->
     </form>
 
 {% endblock %}

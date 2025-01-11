@@ -5,15 +5,16 @@
 <header>how to play</header>
 
 <main>
-
     <div>
+        <!-- Instructional information -->
         <p class="info active">goal: unscramble the word.</p>
         <p class="info">you will be given a hint and thirty seconds.</p>
         <p class="info">if you get it wrong you lose a life.</p>
         <p class="info">if time runs out you lose a life.</p>
         <p class="info">three strikes and you're out.</p>
         <p class="info">good luck!</p>
-
+        
+        <!-- Initialize 'navigation' buttons -->
         <div class="nav">
             <button id="rtnBtn" disabled>&lt;</button>
             <button id="nxtBtn">&gt;</button>
@@ -21,40 +22,47 @@
         
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                // Select all elements assigned to 'info' class
                 const text = document.querySelectorAll('.info');
                 let index = 0;
         
                 const rtnBtn = document.getElementById('rtnBtn');
                 const nxtBtn = document.getElementById('nxtBtn');
-        
+
+                // Update 'active' (visible) instruction paragraph
                 function txtUpdate() {
                     text.forEach((txt, idx) => {
+                        // Toggle 'active' paragraph based on current index
                         txt.classList.toggle('active', idx === index);
                     });
+                    // Ensure 'return' button is disabled if first paragraph 'active'
                     rtnBtn.disabled = index === 0;
                 }
 
+                // Initialize 'active' paragraph
                 txtUpdate();
-        
+
+                // Initialize previous index if 'return' button clicked/pressed
                 rtnBtn.addEventListener('click', () => {
                     if (index > 0) {
                         index--;
                         txtUpdate();
                     }
                 });
-        
+
+                // Initialize following index if 'return' button clicked/pressed
                 nxtBtn.addEventListener('click', () => {
                     if (index < text.length - 1) {
                         index++;
                         txtUpdate();
                     } else if (index == text.length - 1) {
+                        // Redirect to 'home' directory if last paragraph 
                         window.location.href = "/";
                     }
                 });
             });
         </script>
     </div>
-    
 </main>
 
 {% endblock %}

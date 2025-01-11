@@ -2,23 +2,24 @@
 
 {% block main %}
 
-    <header>final score: {{ pts }}</header>
+    <header>final score: {{ pts }}</header> <!-- Display final score after game 'completion' -->
 
     {% if alert %}
         <div class="custom-alert" id="notif" role="alert">
-            {{ alert }}
+            {{ alert }} <!-- Dynamically displays 'alert' message -->
         </div>
     {% endif %}
 
     <script>
+        // Handle removal of 'alert' notification
         document.addEventListener("DOMContentLoaded", function () {
             const notif = document.getElementById("notif");
-            if (notif) {
+            if (notif) { // Check if 'alert' notification exists
                 setTimeout(() => {
-                    notif.style.transition = "opacity 0.5s ease";
-                    notif.style.opacity = "0";
+                    notif.style.transition = "opacity 0.5s ease"; // Implement 'fade-out' transition effect
+                    notif.style.opacity = "0"; // Hide 'alert' notification
                     setTimeout(() => notif.remove(), 500);
-                }, 3000);
+                }, 3000); // Show 'alert' for three (3) seconds
             }
         });
     </script>

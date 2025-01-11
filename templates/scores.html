@@ -14,12 +14,12 @@
                     <th>date</th>
                 </tr>
                 <tbody>
-                    {% for score in scores %}
+                    {% for score in scores %} <!-- Iterate through list of scores returned by SQL query -->
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ score.score }}</td>
                         <td>{{ score.difficulty }}</td>
-                        <td>{{ score.timestamp[:10] }}</td>
+                        <td>{{ score.timestamp[:10] }}</td> <!-- Ensure date is displayed in MM/DD/YYYY format-->
                     </tr>
                     {% endfor %}
                 </tbody>

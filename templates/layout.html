@@ -24,10 +24,12 @@
                 <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <!-- 'Hide' main navigation bar if 'in-game' -->
                 {% if request.path == '/main' %}
                     <ul class="navbar-nav me-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/">exit</a></li>
                     </ul>
+                <!-- Show main navigation bar if not 'in-game' -->
                 {% else %}
                     <ul class="navbar-nav me-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/">play</a></li>
@@ -35,6 +37,7 @@
                         <li class="nav-item"><a class="nav-link" href="/set">settings</a></li>
                     </ul>
                     <div class="collapse navbar-collapse" id="navbar">
+                        <!-- Show 'scores' dropdown menu and log out functionality if user authenticated -->
                         {% if session.get("user_id") %}
                             <ul class="navbar-nav me-auto mt-2">
                                 <li class="nav-item dropdown">
@@ -49,6 +52,7 @@
                             <ul class="navbar-nav ms-auto mt-2">
                                 <li class="nav-item"><a class="nav-link" href="/logout">log out</a></li>
                             </ul>
+                        <!-- Allow for user registration and login if cannot authenticate user -->
                         {% else %}
                             <ul class="navbar-nav ms-auto mt-2">
                                 <li class="nav-item"><a class="nav-link" href="/register">register</a></li>
@@ -65,8 +69,11 @@
     </body>
 
     <script>
+        // Clear session data when user navigates to seperate page
         window.addEventListener('pageshow', function (event) {
+            // Check if page accessed through forward/back cache or reloaded
             if (event.persisted || performance.navigation.type === 2) {
+                // POST request to clear session data, reload page
                 fetch('/clear', { method: 'POST' })
                     .then(response => {
                         if (response.ok) {
